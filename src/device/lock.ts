@@ -3,7 +3,7 @@
  * lock.ts: @switchbot/homebridge-switchbot.
  */
 import type { CharacteristicValue, PlatformAccessory, Service } from 'homebridge'
-import type { bodyChange, device, lockProServiceData, lockProStatus, lockProWebhookContext, lockServiceData, lockStatus, lockWebhookContext, lockUltraServiceData, SwitchBotBLE, SwitchbotDevice, WoSmartLock, WoSmartLockUltra } from 'node-switchbot'
+import type { bodyChange, device, lockProServiceData, lockProStatus, lockProWebhookContext, lockServiceData, lockStatus, lockWebhookContext, lockUltraServiceData, SwitchBotBLE, SwitchbotDevice, WoSmartLock } from 'node-switchbot'
 
 import type { SwitchBotPlatform } from '../platform.js'
 import type { devicesConfig, lockConfig } from '../settings.js'
