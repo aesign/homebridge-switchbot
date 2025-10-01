@@ -214,6 +214,8 @@ export interface lockConfig extends BaseDeviceConfig {
   configDeviceType: 'Smart Lock' | 'Smart Lock Pro' | 'Smart Lock Ultra'
   hide_contactsensor?: boolean
   activate_latchbutton?: boolean
+  encryptionKey?: string
+  keyId?: string
 };
 
 export interface hubConfig extends BaseDeviceConfig {

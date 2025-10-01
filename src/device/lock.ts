@@ -4,6 +4,7 @@
  */
 import type { CharacteristicValue, PlatformAccessory, Service } from 'homebridge'
 import type { bodyChange, device, lockProServiceData, lockProStatus, lockProWebhookContext, lockServiceData, lockStatus, lockWebhookContext, lockUltraServiceData, SwitchBotBLE, SwitchbotDevice, WoSmartLock } from 'node-switchbot'
+import { WoSmartLockPro, WoSmartLockUltra } from 'node-switchbot'
 
 import type { SwitchBotPlatform } from '../platform.js'
 import type { devicesConfig, lockConfig } from '../settings.js'
@@ -463,10 +464,24 @@ export class Lock extends deviceBase {
               return await this.retryBLE({
                 max: this.maxRetryBLE(),
                 fn: async () => {
+                  const device = device_list[0]
+                  
+                  // Set encryption keys for Lock Pro and Lock Ultra
+                  if (device instanceof WoSmartLockPro || device instanceof WoSmartLockUltra) {
+                    const lockDevice = this.device as lockConfig
+                    if (lockDevice.encryptionKey && lockDevice.keyId) {
+                      await device.setKey(lockDevice.keyId, lockDevice.encryptionKey)
+                      this.debugLog(`Set encryption keys for ${device.constructor.name}`)
+                    } else {
+                      this.errorLog(`Encryption key and key ID required for ${device.constructor.name}`)
+                      throw new Error('Encryption key and key ID required for Lock Pro/Ultra')
+                    }
+                  }
+                  
                   if (this.LockMechanism.LockTargetState === this.hap.Characteristic.LockTargetState.SECURED) {
-                    return await (device_list[0] as WoSmartLock).lock()
+                    return await (device as WoSmartLock | WoSmartLockPro | WoSmartLockUltra).lock()
                   } else {
-                    return await (device_list[0] as WoSmartLock).unlock()
+                    return await (device as WoSmartLock | WoSmartLockPro | WoSmartLockUltra).unlock()
                   }
                 },
               })

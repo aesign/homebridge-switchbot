@@ -8579,6 +8579,24 @@
                       "functionBody": "return (model.options && model.options.deviceConfig && model.options.deviceConfig['Smart Lock Ultra'] && !model.options.deviceConfig['Smart Lock Ultra'].hide_device && (model.options.deviceConfig['Smart Lock Ultra'].connectionType === 'BLE' || model.options.deviceConfig['Smart Lock Ultra'].connectionType === 'BLE/OpenAPI'));"
                     }
                   },
+                  "encryptionKey": {
+                    "title": "Encryption Key",
+                    "type": "string",
+                    "description": "32-character hex encryption key for Lock Ultra communication",
+                    "pattern": "^[0-9A-Fa-f]{32}$",
+                    "condition": {
+                      "functionBody": "return (model.options && model.options.deviceConfig && model.options.deviceConfig['Smart Lock Ultra'] && !model.options.deviceConfig['Smart Lock Ultra'].hide_device && model.options.deviceConfig['Smart Lock Ultra'].configDeviceType === 'Smart Lock Ultra' && (model.options.deviceConfig['Smart Lock Ultra'].connectionType === 'BLE' || model.options.deviceConfig['Smart Lock Ultra'].connectionType === 'BLE/OpenAPI'));"
+                    }
+                  },
+                  "keyId": {
+                    "title": "Key ID",
+                    "type": "string",
+                    "description": "4-character hex key ID for Lock Ultra communication",
+                    "pattern": "^[0-9A-Fa-f]{4}$",
+                    "condition": {
+                      "functionBody": "return (model.options && model.options.deviceConfig && model.options.deviceConfig['Smart Lock Ultra'] && !model.options.deviceConfig['Smart Lock Ultra'].hide_device && model.options.deviceConfig['Smart Lock Ultra'].configDeviceType === 'Smart Lock Ultra' && (model.options.deviceConfig['Smart Lock Ultra'].connectionType === 'BLE' || model.options.deviceConfig['Smart Lock Ultra'].connectionType === 'BLE/OpenAPI'));"
+                    }
+                  },
                   "connectionType": {
                     "title": "Connection Type",
                     "type": "string",
