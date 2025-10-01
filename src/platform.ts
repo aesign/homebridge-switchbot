@@ -605,6 +605,7 @@ export class SwitchBotPlatform implements DynamicPlatformPlugin {
       'Plug Mini (JP)': this.createPlug.bind(this),
       'Smart Lock': this.createLock.bind(this),
       'Smart Lock Pro': this.createLock.bind(this),
+      'Smart Lock Ultra': this.createLock.bind(this),
       'Color Bulb': this.createColorBulb.bind(this),
       'K10+': this.createRobotVacuumCleaner.bind(this),
       'K10+ Pro': this.createRobotVacuumCleaner.bind(this),
@@ -1596,7 +1597,8 @@ export class SwitchBotPlatform implements DynamicPlatformPlugin {
         existingAccessory.context.device = device
         existingAccessory.context.deviceId = device.deviceId
         existingAccessory.context.deviceType = device.deviceType
-        existingAccessory.context.model = device.deviceType === 'Smart Lock Pro' ? SwitchBotModel.LockPro : SwitchBotModel.Lock
+        existingAccessory.context.model = device.deviceType === 'Smart Lock Pro' ? SwitchBotModel.LockPro : 
+          device.deviceType === 'Smart Lock Ultra' ? SwitchBotModel.LockUltra : SwitchBotModel.Lock
         existingAccessory.displayName = device.configDeviceName
           ? await this.validateAndCleanDisplayName(device.configDeviceName, 'configDeviceName', device.configDeviceName)
           : await this.validateAndCleanDisplayName(device.deviceName, 'deviceName', device.deviceName)
@@ -1622,7 +1624,8 @@ export class SwitchBotPlatform implements DynamicPlatformPlugin {
       accessory.context.device = device
       accessory.context.deviceId = device.deviceId
       accessory.context.deviceType = device.deviceType
-      accessory.context.model = device.deviceType === 'Smart Lock Pro' ? SwitchBotModel.LockPro : SwitchBotModel.Lock
+      accessory.context.model = device.deviceType === 'Smart Lock Pro' ? SwitchBotModel.LockPro : 
+        device.deviceType === 'Smart Lock Ultra' ? SwitchBotModel.LockUltra : SwitchBotModel.Lock
       accessory.displayName = device.configDeviceName
         ? await this.validateAndCleanDisplayName(device.configDeviceName, 'configDeviceName', device.configDeviceName)
         : await this.validateAndCleanDisplayName(device.deviceName, 'deviceName', device.deviceName)

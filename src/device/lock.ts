@@ -3,7 +3,7 @@
  * lock.ts: @switchbot/homebridge-switchbot.
  */
 import type { CharacteristicValue, PlatformAccessory, Service } from 'homebridge'
-import type { bodyChange, device, lockProServiceData, lockProStatus, lockProWebhookContext, lockServiceData, lockStatus, lockWebhookContext, SwitchBotBLE, SwitchbotDevice, WoSmartLock } from 'node-switchbot'
+import type { bodyChange, device, lockProServiceData, lockProStatus, lockProWebhookContext, lockServiceData, lockStatus, lockWebhookContext, lockUltraServiceData, SwitchBotBLE, SwitchbotDevice, WoSmartLock, WoSmartLockUltra } from 'node-switchbot'
 
 import type { SwitchBotPlatform } from '../platform.js'
 import type { devicesConfig, lockConfig } from '../settings.js'
@@ -53,7 +53,7 @@ export class Lock extends deviceBase {
   webhookContext!: lockWebhookContext | lockProWebhookContext
 
   // BLE
-  serviceData!: lockServiceData | lockProServiceData
+  serviceData!: lockServiceData | lockProServiceData | lockUltraServiceData
 
   // Updates
   lockUpdateInProgress!: boolean
@@ -329,10 +329,10 @@ export class Lock extends deviceBase {
       // Start to monitor advertisement packets
       (async () => {
         // Start to monitor advertisement packets
-        const serviceData = await this.monitorAdvertisementPackets(switchBotBLE) as lockServiceData | lockProServiceData
+        const serviceData = await this.monitorAdvertisementPackets(switchBotBLE) as lockServiceData | lockProServiceData | lockUltraServiceData
         // Update HomeKit
-        if ((serviceData.model === SwitchBotBLEModel.Lock || SwitchBotBLEModel.LockPro)
-          && (serviceData.modelName === SwitchBotBLEModelName.Lock || SwitchBotBLEModelName.LockPro)) {
+        if ((serviceData.model === SwitchBotBLEModel.Lock || SwitchBotBLEModel.LockPro || SwitchBotBLEModel.LockUltra)
+          && (serviceData.modelName === SwitchBotBLEModelName.Lock || SwitchBotBLEModelName.LockPro || SwitchBotBLEModelName.LockUltra)) {
           this.serviceData = serviceData
           if (serviceData !== undefined || serviceData !== null) {
             await this.BLEparseStatus()
@@ -357,7 +357,7 @@ export class Lock extends deviceBase {
         const formattedDeviceId = formatDeviceIdAsMac(this.device.deviceId)
         this.device.bleMac = formattedDeviceId
         this.debugLog(`bleMac: ${this.device.bleMac}`)
-        this.platform.bleEventHandler[this.device.bleMac] = async (context: lockServiceData | lockProServiceData) => {
+        this.platform.bleEventHandler[this.device.bleMac] = async (context: lockServiceData | lockProServiceData | lockUltraServiceData) => {
           try {
             this.serviceData = context
             if (context !== undefined || context !== null) {
